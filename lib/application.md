@@ -178,6 +178,8 @@ module.exports = class Application extends Emitter {
     this.proxyIpHeader = options.proxyIpHeader || "X-Forwarded-For";
     this.maxIpsCount = options.maxIpsCount || 0;
     this.env = options.env || process.env.NODE_ENV || "development";
+    // 给 cookies 用的，选填 
+    // 当 cookies 设置为 sign: true 的 时候 是 必填的
     if (options.keys) this.keys = options.keys;
 
     //
@@ -340,12 +342,86 @@ module.exports = class Application extends Emitter {
     context.state = {};
 
     // type Content = {
+    //   原来就已经有的
+    //   inspect
+    //   toJSON  // 里面的部分属性是这里才挂上的
+    //   assert
+    //   throw (http-errors 导出的方法)
+    //   onerror
+    //   getter cookies
+    //   setter cookies
+    //
+    //   委托上去的
+    //   response.js
+    //       【方法】
+    //           attachment
+    //           redirect
+    //           remove
+    //           vary
+    //           has
+    //           set
+    //           append
+    //           flushHeaders
+    //       【getter and setter】
+    //           status
+    //           message
+    //           body
+    //           length
+    //           type
+    //           lastModified
+    //           etag
+    //       【getter】
+    //           headerSent
+    //           writable
+    //   request.js
+    //       【方法】
+    //           acceptsLanguages
+    //           acceptsEncodings
+    //           acceptsCharsets
+    //           accepts
+    //           get
+    //           is
+    //       【getter and setter】
+    //           querystring
+    //           idempotent
+    //           socket
+    //           search
+    //           method
+    //           query
+    //           path
+    //           url
+    //           accept
+    //       【getter】
+    //           origin
+    //           href
+    //           subdomains
+    //           protocol
+    //           host
+    //           hostname
+    //           URL
+    //           header
+    //           headers
+    //           secure
+    //           stale
+    //           fresh
+    //           ips
+    //           ip
+    //   以下这次加的
     //   app: this;
     //   req: req;
     //   res: res;
     //   originalUrl:
     //   state：{};
     // }
+
+    // context.toJSON()
+    //   request: this.request.toJSON(),
+    //   response: this.response.toJSON(),
+    //   app: this.app.toJSON(),
+    //   originalUrl: this.originalUrl,
+    //   req: '<original node req>',
+    //   res: '<original node res>',
+    //   socket: '<original node socket>'
     return context;
   }
 
