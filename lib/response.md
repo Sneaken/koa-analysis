@@ -88,11 +88,15 @@ module.exports = {
   set status (code) {
     if (this.headerSent) return;
 
+    // 如果不是数组就会报错
     assert(Number.isInteger(code), "status code must be a number");
+    // code 应该 介于 100 - 999 之前
     assert(code >= 100 && code <= 999, `invalid status code: ${code}`);
+    // 使在 body 的里面 能跳过
     this._explicitStatus = true;
     this.res.statusCode = code;
     if (this.req.httpVersionMajor < 2) this.res.statusMessage = statuses[code];
+    // 修正 body
     if (this.body && statuses.empty[code]) this.body = null;
   },
 
