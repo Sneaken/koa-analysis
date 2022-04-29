@@ -38,7 +38,6 @@ Execute a callback when a HTTP request closes, finishes, or errors.
  */
 
 function respond (ctx) {
-
   // 中间件里面 设置 ctx.respond = false 的 时候 就可以绕过 koa 的处理 然后自己处理响应逻辑
   // allow bypassing koa
   if (ctx.respond === false) return;
@@ -86,7 +85,7 @@ function respond (ctx) {
       body = ctx.message || String(code);
     }
     if (!res.headersSent) {
-      // 如果 http响应头 还没有发送 
+      // 如果 http响应头 还没有发送
       ctx.type = "text";
       ctx.length = Buffer.byteLength(body);
     }
@@ -178,7 +177,7 @@ module.exports = class Application extends Emitter {
     this.proxyIpHeader = options.proxyIpHeader || "X-Forwarded-For";
     this.maxIpsCount = options.maxIpsCount || 0;
     this.env = options.env || process.env.NODE_ENV || "development";
-    // 给 cookies 用的，选填 
+    // 给 cookies 用的，选填
     // 当 cookies 设置为 sign: true 的 时候 是 必填的
     if (options.keys) this.keys = options.keys;
 
@@ -323,9 +322,11 @@ module.exports = class Application extends Emitter {
     // 在上下文上挂载一些东西
     const context = Object.create(this.context);
     // 给上下文挂上东西
+    // 这个时候 request 还是 undefined
     const request = (context.request = Object.create(this.request));
     const response = (context.response = Object.create(this.response));
     context.app = request.app = response.app = this;
+    // 这个时候 request 才会返回对象
     context.req = request.req = response.req = req;
     context.res = request.res = response.res = res;
 
