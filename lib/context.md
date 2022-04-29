@@ -72,7 +72,10 @@ const proto = (module.exports = {
       response: this.response.toJSON(),
       app: this.app.toJSON(),
       originalUrl: this.originalUrl,
+      // 颇具迷惑色彩
+      // console.log(this.req) 实际是 createContext 的 时候挂载上的对象，
       req: "<original node req>",
+      // console.log(this.res) 实际是 createContext 的 时候挂载上的对象，
       res: "<original node res>",
       socket: "<original node socket>",
     };
